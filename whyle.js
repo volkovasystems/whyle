@@ -48,10 +48,12 @@
 			"budge": "budge",
 			"called": "called",
 			"clazof": "clazof",
+			"depher": "depher",
 			"doubt": "doubt",
 			"harden": "harden",
 			"letgo": "letgo",
 			"optfor": "optfor",
+			"pringe": "pringe",
 			"protype": "protype",
 			"raze": "raze",
 			"snapd": "snapd",
@@ -59,15 +61,35 @@
 			"zelf": "zelf"
 		}
 	@end-include
+
+	@usage:
+		The condition may return an array of result which will be passed to the iterator.
+		The iterator may pass data to the callback that will be
+			passed on the next call of the condition.
+
+		Passing error as the first parameter in the callback is optional.
+
+			whyle( function condition( callback, ...parameter ){
+
+			}, function iterator( callback, ...parameter ){
+
+			} )( function lastly( error, ...parameter ){
+
+			} );
+	@end-usage
 */
 
 const budge = require( "budge" );
 const called = require( "called" );
 const clazof = require( "clazof" );
+const depher = require( "depher" );
 const doubt = require( "doubt" );
 const harden = require( "harden" );
+const impel = require( "impel" );
+const kein = require( "kein" );
 const letgo = require( "letgo" );
 const optfor = require( "optfor" );
+const pringe = require( "pringe" );
 const protype = require( "protype" );
 const raze = require( "raze" );
 const snapd = require( "snapd" );
@@ -107,29 +129,44 @@ const whyle = function whyle( condition, iterator, delay ){
 		return callback.apply( self, budge( arguments ) );
 	};
 
+	let trace = pringe.bind( self )( [ condition, iterator, delay ] );
+
+	if( kein( whyle.cache, trace ) && !whyle.cache[ trace ].done( ) ){
+		return whyle.cache[ trace ];
+	}
+
 	let catcher = letgo.bind( self )( function loop( cache ){
 		let stop = function stop( ){
-			harden( "DONE", DONE, catcher );
+			impel( "DONE", DONE, catcher );
+
+			catcher.release( );
 
 			cache.callback.apply( self, raze( arguments ) );
+
+			return catcher;
 		};
 
+		/*;
+			@note:
+				This is intentionally var don't change this.
+			@end-note
+		*/
 		var factory = function factory( ){
 			return called.bind( self )( function execute( error, result ){
-				if( catcher.DONE === DONE ){
+				if( catcher.done( ) ){
 					return catcher;
 				}
 
 				let parameter = raze( arguments );
 
 				error = optfor( parameter, Error );
-				if( clazof( error, Error ) ){
-					return cache.callback.apply( self, parameter );
+				if( truly( error ) && clazof( error, Error ) ){
+					return stop.apply( self, parameter );
 				}
 
-				result = optfor( parameter, BOOLEAN );
+				result = depher( parameter, BOOLEAN, true );
 				if( protype( result, BOOLEAN ) && !result ){
-					return cache.callback.apply( self, parameter );
+					return stop.apply( self, [ null ].concat( budge( parameter ) ) );
 				}
 
 				snapd.bind( self )( function onTimeout( ){
@@ -137,15 +174,25 @@ const whyle = function whyle( condition, iterator, delay ){
 
 					harden( "stop", stop, callback );
 
-					return iterator.apply( self, [ callback ].concat( budge( parameter ) ) );
+					try{
+						return iterator.apply( self, [ callback ].concat( budge( parameter ) ) );
+
+					}catch( error ){
+						return stop( error );
+					}
 				}, delay ).release( );
 
 				return catcher;
 			} );
 		};
 
+		/*;
+			@note:
+				This is intentionally var don't change this.
+			@end-note
+		*/
 		var test = function test( error ){
-			if( catcher.DONE === DONE ){
+			if( catcher.done( ) ){
 				return catcher;
 			}
 
@@ -153,9 +200,7 @@ const whyle = function whyle( condition, iterator, delay ){
 
 			error = optfor( parameter, Error );
 			if( clazof( error, Error ) ){
-				cache.callback.apply( self, parameter );
-
-				return catcher;
+				return stop.apply( self, parameter );
 			}
 
 			let execute = factory( );
@@ -165,7 +210,7 @@ const whyle = function whyle( condition, iterator, delay ){
 			try{
 				let result = condition.apply( self, [ execute ].concat( parameter ) );
 
-				if( catcher.DONE === DONE ){
+				if( catcher.done( ) ){
 					return catcher;
 				}
 
@@ -176,16 +221,34 @@ const whyle = function whyle( condition, iterator, delay ){
 				execute.apply( self, [ null ].concat( result ) );
 
 			}catch( error ){
-				execute.call( self, error );
+				return stop( error );
 			}
 
 			return catcher;
 		};
 
-		return test( );
+		test.apply( self, cache.parameter );
+
+		return catcher;
 	} );
+
+	harden( "trace", trace, catcher );
+
+	catcher.done( function done( ){
+		return catcher.DONE === DONE;
+	} );
+
+	catcher.release( function release( ){
+		if( kein( whyle.cache, trace ) ){
+			delete whyle.cache[ trace ];
+		}
+	} );
+
+	whyle.cache[ trace ] = catcher;
 
 	return catcher;
 };
+
+harden( "cache", whyle.cache || { }, whyle );
 
 module.exports = whyle;

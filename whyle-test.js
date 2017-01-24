@@ -1,12 +1,31 @@
 const whyle = require( "./whyle.js" );
 
-var x = 0;
-whyle( function test( callback ){
-		callback( x < 5 );
+whyle( function test( callback, x ){
+		console.log( "condition called!", x );
+
+		callback( x < 5, x );
 	},
-	function increment( callback ){
-		callback( x++ );
-	} )
-	( function lastly( ){
-		console.log( x );
-	} )
+	function increment( callback, x ){
+		console.log( "iterator called!", x );
+
+		x++;
+		callback( x );
+	}, 1000 )
+	( function lastly( error, x ){
+		console.log( "lastly called", x );
+	}, 0 )
+
+// whyle( function test( callback, x ){
+// 		console.log( "condition called!", x );
+//
+// 		callback( x < 5, x );
+// 	},
+// 	function increment( callback, x ){
+// 		console.log( "iterator called!", x );
+//
+// 		x++;
+// 		callback( x );
+// 	}, 1000 )
+// 	( function lastly( error, x ){
+// 		console.log( "lastly called", x );
+// 	}, 0 )
