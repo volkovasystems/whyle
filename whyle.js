@@ -69,6 +69,11 @@
 
 		Passing error as the first parameter in the callback is optional.
 
+		Passing initial parameter to the catcher after the lastly callback will
+			pass it to the first call of the condition.
+
+		Iterator may return result that will be accumulated.
+
 			whyle( function condition( callback, ...parameter ){
 
 			}, function iterator( callback, ...parameter ){
@@ -139,9 +144,13 @@ const whyle = function whyle( condition, iterator, delay ){
 		let stop = function stop( ){
 			impel( "DONE", DONE, catcher );
 
-			catcher.release( );
+			let parameter = raze( arguments );
 
-			cache.callback.apply( self, raze( arguments ) );
+			snapd.bind( self )( function callback( ){
+				cache.callback.apply( self, parameter.concat( [ catcher.accumulant ] ) );
+
+				catcher.release( );
+			} ).release( );
 
 			return catcher;
 		};
@@ -166,7 +175,7 @@ const whyle = function whyle( condition, iterator, delay ){
 
 				result = depher( parameter, BOOLEAN, true );
 				if( protype( result, BOOLEAN ) && !result ){
-					return stop.apply( self, [ null ].concat( budge( parameter ) ) );
+					return stop.apply( self, [ null ].concat( parameter ) );
 				}
 
 				snapd.bind( self )( function onTimeout( ){
@@ -175,11 +184,15 @@ const whyle = function whyle( condition, iterator, delay ){
 					harden( "stop", stop, callback );
 
 					try{
-						return iterator.apply( self, [ callback ].concat( budge( parameter ) ) );
+						let output = iterator.apply( self, [ callback ].concat( budge( parameter ) ) );
+						catcher.accumulant.push( output );
+
+						return output;
 
 					}catch( error ){
-						return stop( error );
+						return stop.apply( self, [ error ].concat( parameter ) );
 					}
+
 				}, delay ).release( );
 
 				return catcher;
@@ -234,11 +247,22 @@ const whyle = function whyle( condition, iterator, delay ){
 
 	harden( "trace", trace, catcher );
 
+	/*;
+		@note:
+			This will cache results from iterator.
+		@end-note
+	*/
+	harden( "accumulant", [ ], catcher );
+
 	catcher.done( function done( ){
 		return catcher.DONE === DONE;
 	} );
 
 	catcher.release( function release( ){
+		while( catcher.accumulant.length ){
+			catcher.accumulant.pop( );
+		}
+
 		if( kein( whyle.cache, trace ) ){
 			delete whyle.cache[ trace ];
 		}

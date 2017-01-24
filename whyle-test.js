@@ -10,9 +10,11 @@ whyle( function test( callback, x ){
 
 		x++;
 		callback( x );
+
+		return x;
 	}, 1000 )
 	( function lastly( error, x ){
-		console.log( "lastly called", x );
+		console.log( "lastly called", arguments );
 	}, 0 )
 
 // whyle( function test( callback, x ){
