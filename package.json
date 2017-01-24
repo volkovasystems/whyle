@@ -1,6 +1,6 @@
 {
   "name": "whyle",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Asynchronous while.",
   "main": "whyle.js",
   "support": "whyle.support.js",

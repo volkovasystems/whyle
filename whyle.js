@@ -51,6 +51,8 @@
 			"depher": "depher",
 			"doubt": "doubt",
 			"harden": "harden",
+			"impel": "impel",
+			"kein": "kein",
 			"letgo": "letgo",
 			"optfor": "optfor",
 			"pringe": "pringe",
