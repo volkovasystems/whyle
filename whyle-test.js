@@ -20,6 +20,18 @@ whyle( function test( callback, x ){
 // whyle( function test( callback, x ){
 // 		console.log( "condition called!", x );
 //
+// 		callback( ++x < 5, x );
+//
+// 		//: This is not yet currently possible.
+// 		//return [ ++x < 5, x ];
+// 	}, 1000 )
+// 	( function lastly( error, x ){
+// 		console.log( "lastly called", arguments );
+// 	}, 0 )
+
+// whyle( function test( callback, x ){
+// 		console.log( "condition called!", x );
+//
 // 		callback( x < 5, x );
 // 	},
 // 	function increment( callback, x ){

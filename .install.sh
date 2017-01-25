@@ -5,6 +5,7 @@ called \
 clazof \
 depher \
 doubt \
+falzy \
 harden \
 impel \
 kein \
@@ -31,6 +32,7 @@ called \
 clazof \
 depher \
 doubt \
+falzy \
 harden \
 impel \
 kein \

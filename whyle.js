@@ -50,6 +50,7 @@
 			"clazof": "clazof",
 			"depher": "depher",
 			"doubt": "doubt",
+			"falzy": "falzy",
 			"harden": "harden",
 			"impel": "impel",
 			"kein": "kein",
@@ -84,6 +85,10 @@
 
 			} );
 	@end-usage
+
+	@todo:
+		Add capability to return on condition.
+	@end-todo
 */
 
 const budge = require( "budge" );
@@ -91,6 +96,7 @@ const called = require( "called" );
 const clazof = require( "clazof" );
 const depher = require( "depher" );
 const doubt = require( "doubt" );
+const falzy = require( "falzy" );
 const harden = require( "harden" );
 const impel = require( "impel" );
 const kein = require( "kein" );
@@ -120,21 +126,19 @@ const whyle = function whyle( condition, iterator, delay ){
 		throw new Error( "invalid condition" );
 	}
 
-	if( truly( iterator ) && !protype( iterator, FUNCTION ) ){
-		throw new Error( "invalid iterator" );
-	}
+	delay = depher( arguments, NUMBER, 0 );
 
 	if( truly( delay ) && !protype( delay, NUMBER ) ){
 		throw new Error( "invalid delay" );
 	}
 
-	delay = delay || 0;
-
 	let self = zelf( this );
 
-	iterator = iterator || function iterator( callback ){
-		return callback.apply( self, budge( arguments ) );
-	};
+	if( falzy( iterator ) || ( truly( iterator ) && !protype( iterator, FUNCTION ) ) ){
+		iterator = function iterator( callback ){
+			return callback.apply( self, budge( arguments ) );
+		};
+	}
 
 	let trace = pringe.bind( self )( [ condition, iterator, delay ] );
 
@@ -189,6 +193,8 @@ const whyle = function whyle( condition, iterator, delay ){
 						let output = iterator.apply( self, [ callback ].concat( budge( parameter ) ) );
 						catcher.accumulant.push( output );
 
+						callback.apply( self, [ null ].concat( output ) );
+
 						return output;
 
 					}catch( error ){
@@ -226,20 +232,16 @@ const whyle = function whyle( condition, iterator, delay ){
 				let result = condition.apply( self, [ execute ].concat( parameter ) );
 
 				if( catcher.done( ) ){
-					return catcher;
-				}
-
-				if( !doubt( result, ARRAY ) ){
-					result = [ result ];
+					return result;
 				}
 
 				execute.apply( self, [ null ].concat( result ) );
 
+				return result;
+
 			}catch( error ){
 				return stop( error );
 			}
-
-			return catcher;
 		};
 
 		test.apply( self, cache.parameter );
