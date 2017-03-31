@@ -44,4 +44,5 @@ raze \
 snapd \
 truly \
 zelf \
---save
+--save \
+--force-latest

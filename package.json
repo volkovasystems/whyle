@@ -1,12 +1,13 @@
 {
   "name": "whyle",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Asynchronous while.",
   "main": "whyle.js",
   "support": "whyle.support.js",
   "deploy": "whyle.deploy.js",
+  "browser": "whyle.deploy.js",
   "scripts": {
-    "build": "babel whyle.js -o whyle.support.js && webpack",
+    "build": "babel whyle.js --out-file whyle.support.js --source-maps && webpack --progress --display-modules",
     "test": "mocha whyle-test.js"
   },
   "repository": {
@@ -19,37 +20,40 @@
     "whyle"
   ],
   "author": "Richeve S. Bebedor <richeve.bebedor@gmail.com>",
+  "contributors": [
+    "John Lenon Maghanoy <johnlenonmaghanoy@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/volkovasystems/whyle/issues"
   },
   "homepage": "https://github.com/volkovasystems/whyle#readme",
   "dependencies": {
-    "babel-runtime": "^6.22.0",
-    "budge": "^0.5.0",
-    "called": "^0.7.0",
-    "clazof": "^0.4.0",
-    "depher": "^0.7.0",
-    "doubt": "^0.6.0",
-    "falzy": "^0.7.0",
-    "harden": "^0.13.0",
-    "impel": "^0.3.0",
-    "kein": "^0.5.0",
-    "letgo": "^0.16.0",
-    "optfor": "^0.9.0",
-    "pringe": "^0.2.0",
-    "protype": "^0.8.0",
-    "raze": "^0.6.0",
-    "snapd": "^0.13.0",
-    "truly": "^0.6.0",
-    "zelf": "^0.4.0"
+    "babel-runtime": "^6.23.0",
+    "budge": "^0.19.0",
+    "called": "^0.18.0",
+    "clazof": "^0.19.0",
+    "depher": "^0.23.0",
+    "doubt": "^0.24.0",
+    "falzy": "^0.17.0",
+    "harden": "^0.21.0",
+    "impel": "^0.9.0",
+    "kein": "^0.16.0",
+    "letgo": "^0.23.0",
+    "optfor": "^0.19.0",
+    "pringe": "^0.8.0",
+    "protype": "^0.21.0",
+    "raze": "^0.25.0",
+    "snapd": "^0.18.0",
+    "truly": "^0.17.0",
+    "zelf": "^0.11.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.22.2",
-    "babel-core": "^6.22.1",
-    "babel-plugin-transform-runtime": "^6.22.0",
-    "babel-preset-latest": "^6.22.0",
-    "source-map-loader": "^0.1.6",
-    "webpack": "^1.14.0"
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.24.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-latest": "^6.24.0",
+    "source-map-loader": "^0.2.1",
+    "webpack": "^2.3.2"
   }
 }
