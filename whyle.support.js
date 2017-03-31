@@ -1,97 +1,98 @@
-"use strict";
-
-/*;
-	@module-license:
-		The MIT License (MIT)
-		@mit-license
-
-		Copyright (@c) 2017 Richeve Siodina Bebedor
-		@email: richeve.bebedor@gmail.com
-
-		Permission is hereby granted, free of charge, to any person obtaining a copy
-		of this software and associated documentation files (the "Software"), to deal
-		in the Software without restriction, including without limitation the rights
-		to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-		copies of the Software, and to permit persons to whom the Software is
-		furnished to do so, subject to the following conditions:
-
-		The above copyright notice and this permission notice shall be included in all
-		copies or substantial portions of the Software.
-
-		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-		IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-		AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-		SOFTWARE.
-	@end-module-license
-
-	@module-configuration:
-		{
-			"package": "whyle",
-			"path": "whyle/whyle.js",
-			"file": "whyle.js",
-			"module": "whyle",
-			"author": "Richeve S. Bebedor",
-			"eMail": "richeve.bebedor@gmail.com",
-			"repository": "https://github.com:volkovasystems/whyle.git",
-			"test": "whyle-test.js",
-			"global": true
-		}
-	@end-module-configuration
-
-	@module-documentation:
-		Asynchronous while.
-	@end-module-documentation
-
-	@include:
-		{
-			"budge": "budge",
-			"called": "called",
-			"clazof": "clazof",
-			"depher": "depher",
-			"doubt": "doubt",
-			"falzy": "falzy",
-			"harden": "harden",
-			"impel": "impel",
-			"kein": "kein",
-			"letgo": "letgo",
-			"optfor": "optfor",
-			"pringe": "pringe",
-			"protype": "protype",
-			"raze": "raze",
-			"snapd": "snapd",
-			"truly": "truly",
-			"zelf": "zelf"
-		}
-	@end-include
-
-	@usage:
-		The condition may return an array of result which will be passed to the iterator.
-		The iterator may pass data to the callback that will be
-			passed on the next call of the condition.
-
-		Passing error as the first parameter in the callback is optional.
-
-		Passing initial parameter to the catcher after the lastly callback will
-			pass it to the first call of the condition.
-
-		Iterator may return result that will be accumulated.
-
-			whyle( function condition( callback, ...parameter ){
-
-			}, function iterator( callback, ...parameter ){
-
-			} )( function lastly( error, ...parameter ){
-
-			} );
-	@end-usage
-
-	@todo:
-		Add capability to return on condition.
-	@end-todo
-*/
+"use strict"; /*;
+              	@module-license:
+              		The MIT License (MIT)
+              		@mit-license
+              
+              		Copyright (@c) 2017 Richeve Siodina Bebedor
+              		@email: richeve.bebedor@gmail.com
+              
+              		Permission is hereby granted, free of charge, to any person obtaining a copy
+              		of this software and associated documentation files (the "Software"), to deal
+              		in the Software without restriction, including without limitation the rights
+              		to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+              		copies of the Software, and to permit persons to whom the Software is
+              		furnished to do so, subject to the following conditions:
+              
+              		The above copyright notice and this permission notice shall be included in all
+              		copies or substantial portions of the Software.
+              
+              		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+              		IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+              		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+              		AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+              		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+              		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+              		SOFTWARE.
+              	@end-module-license
+              
+              	@module-configuration:
+              		{
+              			"package": "whyle",
+              			"path": "whyle/whyle.js",
+              			"file": "whyle.js",
+              			"module": "whyle",
+              			"author": "Richeve S. Bebedor",
+              			"contributors": [
+              				"John Lenon Maghanoy <johnlenonmaghanoy@gmail.com>"
+              			],
+              			"eMail": "richeve.bebedor@gmail.com",
+              			"repository": "https://github.com:volkovasystems/whyle.git",
+              			"test": "whyle-test.js",
+              			"global": true
+              		}
+              	@end-module-configuration
+              
+              	@module-documentation:
+              		Asynchronous while.
+              	@end-module-documentation
+              
+              	@include:
+              		{
+              			"budge": "budge",
+              			"called": "called",
+              			"clazof": "clazof",
+              			"depher": "depher",
+              			"doubt": "doubt",
+              			"falzy": "falzy",
+              			"harden": "harden",
+              			"impel": "impel",
+              			"kein": "kein",
+              			"letgo": "letgo",
+              			"optfor": "optfor",
+              			"pringe": "pringe",
+              			"protype": "protype",
+              			"raze": "raze",
+              			"snapd": "snapd",
+              			"truly": "truly",
+              			"zelf": "zelf"
+              		}
+              	@end-include
+              
+              	@usage:
+              		The condition may return an array of result which will be passed to the iterator.
+              		The iterator may pass data to the callback that will be
+              			passed on the next call of the condition.
+              
+              		Passing error as the first parameter in the callback is optional.
+              
+              		Passing initial parameter to the catcher after the lastly callback will
+              			pass it to the first call of the condition.
+              
+              		Iterator may return result that will be accumulated.
+              
+              			whyle( function condition( callback, ...parameter ){
+              
+              			}, function iterator( callback, ...parameter ){
+              
+              			} )( function lastly( error, ...parameter ){
+              
+              			} );
+              	@end-usage
+              
+              	@todo:
+              		Add capability to return on condition.
+              	@end-todo
+              */
 
 var budge = require("budge");
 var called = require("called");
@@ -115,14 +116,14 @@ var DONE = "done";
 
 var whyle = function whyle(condition, iterator, delay) {
 	/*;
- 	@meta-configuration:
- 		{
- 			"condition:required": "function",
- 			"iterator": "function",
- 			"delay": "number"
- 		}
- 	@end-meta-configuration
- */
+                                                        	@meta-configuration:
+                                                        		{
+                                                        			"condition:required": "function",
+                                                        			"iterator": "function",
+                                                        			"delay": "number"
+                                                        		}
+                                                        	@end-meta-configuration
+                                                        */
 
 	if (!protype(condition, FUNCTION)) {
 		throw new Error("invalid condition");
@@ -144,7 +145,7 @@ var whyle = function whyle(condition, iterator, delay) {
 
 	var trace = pringe.bind(self)([condition, iterator, delay]);
 
-	if (kein(whyle.cache, trace) && !whyle.cache[trace].done()) {
+	if (kein(trace, whyle.cache) && !whyle.cache[trace].done()) {
 		return whyle.cache[trace];
 	}
 
@@ -164,10 +165,10 @@ var whyle = function whyle(condition, iterator, delay) {
 		};
 
 		/*;
-  	@note:
-  		This is intentionally var don't change this.
-  	@end-note
-  */
+     	@note:
+     		This is intentionally var don't change this.
+     	@end-note
+     */
 		var factory = function factory() {
 			return called.bind(self)(function execute(error, result) {
 				if (catcher.done()) {
@@ -198,9 +199,11 @@ var whyle = function whyle(condition, iterator, delay) {
 						callback.apply(self, [null].concat(output));
 
 						return output;
+
 					} catch (error) {
 						return stop.apply(self, [error].concat(parameter));
 					}
+
 				}, delay).release();
 
 				return catcher;
@@ -208,10 +211,10 @@ var whyle = function whyle(condition, iterator, delay) {
 		};
 
 		/*;
-  	@note:
-  		This is intentionally var don't change this.
-  	@end-note
-  */
+     	@note:
+     		This is intentionally var don't change this.
+     	@end-note
+     */
 		var test = function test(error) {
 			if (catcher.done()) {
 				return catcher;
@@ -238,6 +241,7 @@ var whyle = function whyle(condition, iterator, delay) {
 				execute.apply(self, [null].concat(result));
 
 				return result;
+
 			} catch (error) {
 				return stop(error);
 			}
@@ -251,10 +255,10 @@ var whyle = function whyle(condition, iterator, delay) {
 	harden("trace", trace, catcher);
 
 	/*;
- 	@note:
- 		This will cache results from iterator.
- 	@end-note
- */
+                                  	@note:
+                                  		This will cache results from iterator.
+                                  	@end-note
+                                  */
 	harden("accumulant", [], catcher);
 
 	catcher.done(function done() {
@@ -266,7 +270,7 @@ var whyle = function whyle(condition, iterator, delay) {
 			catcher.accumulant.pop();
 		}
 
-		if (kein(whyle.cache, trace)) {
+		if (kein(trace, whyle.cache)) {
 			delete whyle.cache[trace];
 		}
 	});
@@ -279,4 +283,5 @@ var whyle = function whyle(condition, iterator, delay) {
 harden("cache", whyle.cache || {}, whyle);
 
 module.exports = whyle;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndoeWxlLmpzIl0sIm5hbWVzIjpbImJ1ZGdlIiwicmVxdWlyZSIsImNhbGxlZCIsImNsYXpvZiIsImRlcGhlciIsImRvdWJ0IiwiZmFsenkiLCJoYXJkZW4iLCJpbXBlbCIsImtlaW4iLCJsZXRnbyIsIm9wdGZvciIsInByaW5nZSIsInByb3R5cGUiLCJyYXplIiwic25hcGQiLCJ0cnVseSIsInplbGYiLCJET05FIiwid2h5bGUiLCJjb25kaXRpb24iLCJpdGVyYXRvciIsImRlbGF5IiwiRlVOQ1RJT04iLCJFcnJvciIsImFyZ3VtZW50cyIsIk5VTUJFUiIsInNlbGYiLCJjYWxsYmFjayIsImFwcGx5IiwidHJhY2UiLCJiaW5kIiwiY2FjaGUiLCJkb25lIiwiY2F0Y2hlciIsImxvb3AiLCJzdG9wIiwicGFyYW1ldGVyIiwiY29uY2F0IiwiYWNjdW11bGFudCIsInJlbGVhc2UiLCJmYWN0b3J5IiwiZXhlY3V0ZSIsImVycm9yIiwicmVzdWx0IiwiQk9PTEVBTiIsIm9uVGltZW91dCIsInRlc3QiLCJvdXRwdXQiLCJwdXNoIiwibGVuZ3RoIiwicG9wIiwibW9kdWxlIiwiZXhwb3J0cyJdLCJtYXBwaW5ncyI6Ijs7QUFBQTs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBNkZBLElBQU1BLFFBQVFDLFFBQVMsT0FBVCxDQUFkO0FBQ0EsSUFBTUMsU0FBU0QsUUFBUyxRQUFULENBQWY7QUFDQSxJQUFNRSxTQUFTRixRQUFTLFFBQVQsQ0FBZjtBQUNBLElBQU1HLFNBQVNILFFBQVMsUUFBVCxDQUFmO0FBQ0EsSUFBTUksUUFBUUosUUFBUyxPQUFULENBQWQ7QUFDQSxJQUFNSyxRQUFRTCxRQUFTLE9BQVQsQ0FBZDtBQUNBLElBQU1NLFNBQVNOLFFBQVMsUUFBVCxDQUFmO0FBQ0EsSUFBTU8sUUFBUVAsUUFBUyxPQUFULENBQWQ7QUFDQSxJQUFN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QixRQUFRLFlBQVIsRUFBc0IsRUFBdEIsRUFBMkIyQixPQUEzQjs7QUFFQUEsU0FBUUQsSUFBUixDQUFjLFNBQVNBLElBQVQsR0FBZ0I7QUFDN0IsU0FBT0MsUUFBUWhCLElBQVIsS0FBaUJBLElBQXhCO0FBQ0EsRUFGRDs7QUFJQWdCLFNBQVFNLE9BQVIsQ0FBaUIsU0FBU0EsT0FBVCxHQUFtQjtBQUNuQyxTQUFPTixRQUFRSyxVQUFSLENBQW1CVyxNQUExQixFQUFrQztBQUNqQ2hCLFdBQVFLLFVBQVIsQ0FBbUJZLEdBQW5CO0FBQ0E7O0FBRUQsTUFBSTFDLEtBQU1VLE1BQU1hLEtBQVosRUFBbUJGLEtBQW5CLENBQUosRUFBZ0M7QUFDL0IsVUFBT1gsTUFBTWEsS0FBTixDQUFhRixLQUFiLENBQVA7QUFDQTtBQUNELEVBUkQ7O0FBVUFYLE9BQU1hLEtBQU4sQ0FBYUYsS0FBYixJQUF1QkksT0FBdkI7O0FBRUEsUUFBT0EsT0FBUDtBQUNBLENBcEtEOztBQXNLQTNCLE9BQVEsT0FBUixFQUFpQlksTUFBTWEsS0FBTixJQUFlLEVBQWhDLEVBQXFDYixLQUFyQzs7QUFFQWlDLE9BQU9DLE9BQVAsR0FBaUJsQyxLQUFqQiIsImZpbGUiOiJ3aHlsZS5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qO1xuXHRAbW9kdWxlLWxpY2Vuc2U6XG5cdFx0VGhlIE1JVCBMaWNlbnNlIChNSVQpXG5cdFx0QG1pdC1saWNlbnNlXG5cblx0XHRDb3B5cmlnaHQgKEBjKSAyMDE3IFJpY2hldmUgU2lvZGluYSBCZWJlZG9yXG5cdFx0QGVtYWlsOiByaWNoZXZlLmJlYmVkb3JAZ21haWwuY29tXG5cblx0XHRQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcgYSBjb3B5XG5cdFx0b2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgXCJTb2Z0d2FyZVwiKSwgdG8gZGVhbFxuXHRcdGluIHRoZSBTb2Z0d2FyZSB3aXRob3V0IHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uIHRoZSByaWdodHNcblx0XHR0byB1c2UsIGNvcHksIG1vZGlmeSwgbWVyZ2UsIHB1Ymxpc2gsIGRpc3RyaWJ1dGUsIHN1YmxpY2Vuc2UsIGFuZC9vciBzZWxsXG5cdFx0Y29waWVzIG9mIHRoZSBTb2Z0d2FyZSwgYW5kIHRvIHBlcm1pdCBwZXJzb25zIHRvIHdob20gdGhlIFNvZnR3YXJlIGlzXG5cdFx0ZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczpcblxuXHRcdFRoZSBhYm92ZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIHNoYWxsIGJlIGluY2x1ZGVkIGluIGFsbFxuXHRcdGNvcGllcyBvciBzdWJzdGFudGlhbCBwb3J0aW9ucyBvZiB0aGUgU29mdHdhcmUuXG5cblx0XHRUSEUgU09GVFdBUkUgSVMgUFJPVklERUQgXCJBUyBJU1wiLCBXSVRIT1VUIFdBUlJBTlRZIE9GIEFOWSBLSU5ELCBFWFBSRVNTIE9SXG5cdFx0SU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksXG5cdFx0RklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UgQU5EIE5PTklORlJJTkdFTUVOVC4gSU4gTk8gRVZFTlQgU0hBTEwgVEhFXG5cdFx0QVVUSE9SUyBPUiBDT1BZUklHSFQgSE9MREVSUyBCRSBMSUFCTEUgRk9SIEFOWSBDTEFJTSwgREFNQUdFUyBPUiBPVEhFUlxuXHRcdExJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJT04gT0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklTSU5HIEZST00sXG5cdFx0T1VUIE9GIE9SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgU09GVFdBUkUgT1IgVEhFIFVTRSBPUiBPVEhFUiBERUFMSU5HUyBJTiBUSEVcblx0XHRTT0ZUV0FSRS5cblx0QGVuZC1tb2R1bGUtbGljZW5zZVxuXG5cdEBtb2R1bGUtY29uZmlndXJhdGlvbjpcblx0XHR7XG5cdFx0XHRcInBhY2thZ2VcIjogXCJ3aHlsZVwiLFxuXHRcdFx0XCJwYXRoXCI6IFwid2h5bGUvd2h5bGUuanNcIixcblx0XHRcdFwiZmlsZVwiOiBcIndoeWxlLmpzXCIsXG5cdFx0XHRcIm1vZHVsZVwiOiBcIndoeWxlXCIsXG5cdFx0XHRcImF1dGhvclwiOiBcIlJpY2hldmUgUy4gQmViZWRvclwiLFxuXHRcdFx0XCJlTWFpbFwiOiBcInJpY2hldmUuYmViZWRvckBnbWFpbC5jb21cIixcblx0XHRcdFwicmVwb3NpdG9yeVwiOiBcImh0dHBzOi8vZ2l0aHViLmNvbTp2b2xrb3Zhc3lzdGVtcy93aHlsZS5naXRcIixcblx0XHRcdFwidGVzdFwiOiBcIndoeWxlLXRlc3QuanNcIixcblx0XHRcdFwiZ2xvYmFsXCI6IHRydWVcblx0XHR9XG5cdEBlbmQtbW9kdWxlLWNvbmZpZ3VyYXRpb25cblxuXHRAbW9kdWxlLWRvY3VtZW50YXRpb246XG5cdFx0QXN5bmNocm9ub3VzIHdoaWxlLlxuXHRAZW5kLW1vZHVsZS1kb2N1bWVudGF0aW9uXG5cblx0QGluY2x1ZGU6XG5cdFx0e1xuXHRcdFx0XCJidWRnZVwiOiBcImJ1ZGdlXCIsXG5cdFx0XHRcImNhbGxlZFwiOiBcImNhbGxlZFwiLFxuXHRcdFx0XCJjbGF6b2ZcIjogXCJjbGF6b2ZcIixcblx0XHRcdFwiZGVwaGVyXCI6IFwiZGVwaGVyXCIsXG5cdFx0XHRcImRvdWJ0XCI6IFwiZG91YnRcIixcblx0XHRcdFwiZmFsenlcIjogXCJmYWx6eVwiLFxuXHRcdFx0XCJoYXJkZW5cIjogXCJoYXJkZW5cIixcblx0XHRcdFwiaW1wZWxcIjogXCJpbXBlbFwiLFxuXHRcdFx0XCJrZWluXCI6IFwia2VpblwiLFxuXHRcdFx0XCJsZXRnb1wiOiBcImxldGdvXCIsXG5cdFx0XHRcIm9wdGZvclwiOiBcIm9wdGZvclwiLFxuXHRcdFx0XCJwcmluZ2VcIjogXCJwcmluZ2VcIixcblx0XHRcdFwicHJvdHlwZVwiOiBcInByb3R5cGVcIixcblx0XHRcdFwicmF6ZVwiOiBcInJhemVcIixcblx0XHRcdFwic25hcGRcIjogXCJzbmFwZFwiLFxuXHRcdFx0XCJ0cnVseVwiOiBcInRydWx5XCIsXG5cdFx0XHRcInplbGZcIjogXCJ6ZWxmXCJcblx0XHR9XG5cdEBlbmQtaW5jbHVkZVxuXG5cdEB1c2FnZTpcblx0XHRUaGUgY29uZGl0aW9uIG1heSByZXR1cm4gYW4gYXJyYXkgb2YgcmVzdWx0IHdoaWNoIHdpbGwgYmUgcGFzc2VkIHRvIHRoZSBpdGVyYXRvci5cblx0XHRUaGUgaXRlcmF0b3IgbWF5IHBhc3MgZGF0YSB0byB0aGUgY2FsbGJhY2sgdGhhdCB3aWxsIGJlXG5cdFx0XHRwYXNzZWQgb24gdGhlIG5leHQgY2FsbCBvZiB0aGUgY29uZGl0aW9uLlxuXG5cdFx0UGFzc2luZyBlcnJvciBhcyB0aGUgZmlyc3QgcGFyYW1ldGVyIGluIHRoZSBjYWxsYmFjayBpcyBvcHRpb25hbC5cblxuXHRcdFBhc3NpbmcgaW5pdGlhbCBwYXJhbWV0ZXIgdG8gdGhlIGNhdGNoZXIgYWZ0ZXIgdGhlIGxhc3RseSBjYWxsYmFjayB3aWxsXG5cdFx0XHRwYXNzIGl0IHRvIHRoZSBmaXJzdCBjYWxsIG9mIHRoZSBjb25kaXRpb24uXG5cblx0XHRJdGVyYXRvciBtYXkgcmV0dXJuIHJlc3VsdCB0aGF0IHdpbGwgYmUgYWNjdW11bGF0ZWQuXG5cblx0XHRcdHdoeWxlKCBmdW5jdGlvbiBjb25kaXRpb24oIGNhbGxiYWNrLCAuLi5wYXJhbWV0ZXIgKXtcblxuXHRcdFx0fSwgZnVuY3Rpb24gaXRlcmF0b3IoIGNhbGxiYWNrLCAuLi5wYXJhbWV0ZXIgKXtcblxuXHRcdFx0fSApKCBmdW5jdGlvbiBsYXN0bHkoIGVycm9yLCAuLi5wYXJhbWV0ZXIgKXtcblxuXHRcdFx0fSApO1xuXHRAZW5kLXVzYWdlXG5cblx0QHRvZG86XG5cdFx0QWRkIGNhcGFiaWxpdHkgdG8gcmV0dXJuIG9uIGNvbmRpdGlvbi5cblx0QGVuZC10b2RvXG4qL1xuXG5jb25zdCBidWRnZSA9IHJlcXVpcmUoIFwiYnVkZ2VcIiApO1xuY29uc3QgY2FsbGVkID0gcmVxdWlyZSggXCJjYWxsZWRcIiApO1xuY29uc3QgY2xhem9mID0gcmVxdWlyZSggXCJjbGF6b2ZcIiApO1xuY29uc3QgZGVwaGVyID0gcmVxdWlyZSggXCJkZXBoZXJcIiApO1xuY29uc3QgZG91YnQgPSByZXF1aXJlKCBcImRvdWJ0XCIgKTtcbmNvbnN0IGZhbHp5ID0gcmVxdWlyZSggXCJmYWx6eVwiICk7XG5jb25zdCBoYXJkZW4gPSByZXF1aXJlKCBcImhhcmRlblwiICk7XG5jb25zdCBpbXBlbCA9IHJlcXVpcmUoIFwiaW1wZWxcIiApO1xuY29uc3Qga2VpbiA9IHJlcXVpcmUoIFwia2VpblwiICk7XG5jb25zdCBsZXRnbyA9IHJlcXVpcmUoIFwibGV0Z29cIiApO1xuY29uc3Qgb3B0Zm9yID0gcmVxdWlyZSggXCJvcHRmb3JcIiApO1xuY29uc3QgcHJpbmdlID0gcmVxdWlyZSggXCJwcmluZ2VcIiApO1xuY29uc3QgcHJvdHlwZSA9IHJlcXVpcmUoIFwicHJvdHlwZVwiICk7XG5jb25zdCByYXplID0gcmVxdWlyZSggXCJyYXplXCIgKTtcbmNvbnN0IHNuYXBkID0gcmVxdWlyZSggXCJzbmFwZFwiICk7XG5jb25zdCB0cnVseSA9IHJlcXVpcmUoIFwidHJ1bHlcIiApO1xuY29uc3QgemVsZiA9IHJlcXVpcmUoIFwiemVsZlwiICk7XG5cbmNvbnN0IERPTkUgPSBcImRvbmVcIjtcblxuY29uc3Qgd2h5bGUgPSBmdW5jdGlvbiB3aHlsZSggY29uZGl0aW9uLCBpdGVyYXRvciwgZGVsYXkgKXtcblx0Lyo7XG5cdFx0QG1ldGEtY29uZmlndXJhdGlvbjpcblx0XHRcdHtcblx0XHRcdFx0XCJjb25kaXRpb246cmVxdWlyZWRcIjogXCJmdW5jdGlvblwiLFxuXHRcdFx0XHRcIml0ZXJhdG9yXCI6IFwiZnVuY3Rpb25cIixcblx0XHRcdFx0XCJkZWxheVwiOiBcIm51bWJlclwiXG5cdFx0XHR9XG5cdFx0QGVuZC1tZXRhLWNvbmZpZ3VyYXRpb25cblx0Ki9cblxuXHRpZiggIXByb3R5cGUoIGNvbmRpdGlvbiwgRlVOQ1RJT04gKSApe1xuXHRcdHRocm93IG5ldyBFcnJvciggXCJpbnZhbGlkIGNvbmRpdGlvblwiICk7XG5cdH1cblxuXHRkZWxheSA9IGRlcGhlciggYXJndW1lbnRzLCBOVU1CRVIsIDAgKTtcblxuXHRpZiggdHJ1bHkoIGRlbGF5ICkgJiYgIXByb3R5cGUoIGRlbGF5LCBOVU1CRVIgKSApe1xuXHRcdHRocm93IG5ldyBFcnJvciggXCJpbnZhbGlkIGRlbGF5XCIgKTtcblx0fVxuXG5cdGxldCBzZWxmID0gemVsZiggdGhpcyApO1xuXG5cdGlmKCBmYWx6eSggaXRlcmF0b3IgKSB8fCAoIHRydWx5KCBpdGVyYXRvciApICYmICFwcm90eXBlKCBpdGVyYXRvciwgRlVOQ1RJT04gKSApICl7XG5cdFx0aXRlcmF0b3IgPSBmdW5jdGlvbiBpdGVyYXRvciggY2FsbGJhY2sgKXtcblx0XHRcdHJldHVybiBjYWxsYmFjay5hcHBseSggc2VsZiwgYnVkZ2UoIGFyZ3VtZW50cyApICk7XG5cdFx0fTtcblx0fVxuXG5cdGxldCB0cmFjZSA9IHByaW5nZS5iaW5kKCBzZWxmICkoIFsgY29uZGl0aW9uLCBpdGVyYXRvciwgZGVsYXkgXSApO1xuXG5cdGlmKCBrZWluKCB3aHlsZS5jYWNoZSwgdHJhY2UgKSAmJiAhd2h5bGUuY2FjaGVbIHRyYWNlIF0uZG9uZSggKSApe1xuXHRcdHJldHVybiB3aHlsZS5jYWNoZVsgdHJhY2UgXTtcblx0fVxuXG5cdGxldCBjYXRjaGVyID0gbGV0Z28uYmluZCggc2VsZiApKCBmdW5jdGlvbiBsb29wKCBjYWNoZSApe1xuXHRcdGxldCBzdG9wID0gZnVuY3Rpb24gc3RvcCggKXtcblx0XHRcdGltcGVsKCBcIkRPTkVcIiwgRE9ORSwgY2F0Y2hlciApO1xuXG5cdFx0XHRsZXQgcGFyYW1ldGVyID0gcmF6ZSggYXJndW1lbnRzICk7XG5cblx0XHRcdHNuYXBkLmJpbmQoIHNlbGYgKSggZnVuY3Rpb24gY2FsbGJhY2soICl7XG5cdFx0XHRcdGNhY2hlLmNhbGxiYWNrLmFwcGx5KCBzZWxmLCBwYXJhbWV0ZXIuY29uY2F0KCBbIGNhdGNoZXIuYWNjdW11bGFudCBdICkgKTtcblxuXHRcdFx0XHRjYXRjaGVyLnJlbGVhc2UoICk7XG5cdFx0XHR9ICkucmVsZWFzZSggKTtcblxuXHRcdFx0cmV0dXJuIGNhdGNoZXI7XG5cdFx0fTtcblxuXHRcdC8qO1xuXHRcdFx0QG5vdGU6XG5cdFx0XHRcdFRoaXMgaXMgaW50ZW50aW9uYWxseSB2YXIgZG9uJ3QgY2hhbmdlIHRoaXMuXG5cdFx0XHRAZW5kLW5vdGVcblx0XHQqL1xuXHRcdHZhciBmYWN0b3J5ID0gZnVuY3Rpb24gZmFjdG9yeSggKXtcblx0XHRcdHJldHVybiBjYWxsZWQuYmluZCggc2VsZiApKCBmdW5jdGlvbiBleGVjdXRlKCBlcnJvciwgcmVzdWx0ICl7XG5cdFx0XHRcdGlmKCBjYXRjaGVyLmRvbmUoICkgKXtcblx0XHRcdFx0XHRyZXR1cm4gY2F0Y2hlcjtcblx0XHRcdFx0fVxuXG5cdFx0XHRcdGxldCBwYXJhbWV0ZXIgPSByYXplKCBhcmd1bWVudHMgKTtcblxuXHRcdFx0XHRlcnJvciA9IG9wdGZvciggcGFyYW1ldGVyLCBFcnJvciApO1xuXHRcdFx0XHRpZiggdHJ1bHkoIGVycm9yICkgJiYgY2xhem9mKCBlcnJvciwgRXJyb3IgKSApe1xuXHRcdFx0XHRcdHJldHVybiBzdG9wLmFwcGx5KCBzZWxmLCBwYXJhbWV0ZXIgKTtcblx0XHRcdFx0fVxuXG5cdFx0XHRcdHJlc3VsdCA9IGRlcGhlciggcGFyYW1ldGVyLCBCT09MRUFOLCB0cnVlICk7XG5cdFx0XHRcdGlmKCBwcm90eXBlKCByZXN1bHQsIEJPT0xFQU4gKSAmJiAhcmVzdWx0ICl7XG5cdFx0XHRcdFx0cmV0dXJuIHN0b3AuYXBwbHkoIHNlbGYsIFsgbnVsbCBdLmNvbmNhdCggcGFyYW1ldGVyICkgKTtcblx0XHRcdFx0fVxuXG5cdFx0XHRcdHNuYXBkLmJpbmQoIHNlbGYgKSggZnVuY3Rpb24gb25UaW1lb3V0KCApe1xuXHRcdFx0XHRcdGxldCBjYWxsYmFjayA9IGNhbGxlZC5iaW5kKCBzZWxmICkoIHRlc3QgKTtcblxuXHRcdFx0XHRcdGhhcmRlbiggXCJzdG9wXCIsIHN0b3AsIGNhbGxiYWNrICk7XG5cblx0XHRcdFx0XHR0cnl7XG5cdFx0XHRcdFx0XHRsZXQgb3V0cHV0ID0gaXRlcmF0b3IuYXBwbHkoIHNlbGYsIFsgY2FsbGJhY2sgXS5jb25jYXQoIGJ1ZGdlKCBwYXJhbWV0ZXIgKSApICk7XG5cdFx0XHRcdFx0XHRjYXRjaGVyLmFjY3VtdWxhbnQucHVzaCggb3V0cHV0ICk7XG5cblx0XHRcdFx0XHRcdGNhbGxiYWNrLmFwcGx5KCBzZWxmLCBbIG51bGwgXS5jb25jYXQoIG91dHB1dCApICk7XG5cblx0XHRcdFx0XHRcdHJldHVybiBvdXRwdXQ7XG5cblx0XHRcdFx0XHR9Y2F0Y2goIGVycm9yICl7XG5cdFx0XHRcdFx0XHRyZXR1cm4gc3RvcC5hcHBseSggc2VsZiwgWyBlcnJvciBdLmNvbmNhdCggcGFyYW1ldGVyICkgKTtcblx0XHRcdFx0XHR9XG5cblx0XHRcdFx0fSwgZGVsYXkgKS5yZWxlYXNlKCApO1xuXG5cdFx0XHRcdHJldHVybiBjYXRjaGVyO1xuXHRcdFx0fSApO1xuXHRcdH07XG5cblx0XHQvKjtcblx0XHRcdEBub3RlOlxuXHRcdFx0XHRUaGlzIGlzIGludGVudGlvbmFsbHkgdmFyIGRvbid0IGNoYW5nZSB0aGlzLlxuXHRcdFx0QGVuZC1ub3RlXG5cdFx0Ki9cblx0XHR2YXIgdGVzdCA9IGZ1bmN0aW9uIHRlc3QoIGVycm9yICl7XG5cdFx0XHRpZiggY2F0Y2hlci5kb25lKCApICl7XG5cdFx0XHRcdHJldHVybiBjYXRjaGVyO1xuXHRcdFx0fVxuXG5cdFx0XHRsZXQgcGFyYW1ldGVyID0gcmF6ZSggYXJndW1lbnRzICk7XG5cblx0XHRcdGVycm9yID0gb3B0Zm9yKCBwYXJhbWV0ZXIsIEVycm9yICk7XG5cdFx0XHRpZiggY2xhem9mKCBlcnJvciwgRXJyb3IgKSApe1xuXHRcdFx0XHRyZXR1cm4gc3RvcC5hcHBseSggc2VsZiwgcGFyYW1ldGVyICk7XG5cdFx0XHR9XG5cblx0XHRcdGxldCBleGVjdXRlID0gZmFjdG9yeSggKTtcblxuXHRcdFx0aGFyZGVuKCBcInN0b3BcIiwgc3RvcCwgZXhlY3V0ZSApO1xuXG5cdFx0XHR0cnl7XG5cdFx0XHRcdGxldCByZXN1bHQgPSBjb25kaXRpb24uYXBwbHkoIHNlbGYsIFsgZXhlY3V0ZSBdLmNvbmNhdCggcGFyYW1ldGVyICkgKTtcblxuXHRcdFx0XHRpZiggY2F0Y2hlci5kb25lKCApICl7XG5cdFx0XHRcdFx0cmV0dXJuIHJlc3VsdDtcblx0XHRcdFx0fVxuXG5cdFx0XHRcdGV4ZWN1dGUuYXBwbHkoIHNlbGYsIFsgbnVsbCBdLmNvbmNhdCggcmVzdWx0ICkgKTtcblxuXHRcdFx0XHRyZXR1cm4gcmVzdWx0O1xuXG5cdFx0XHR9Y2F0Y2goIGVycm9yICl7XG5cdFx0XHRcdHJldHVybiBzdG9wKCBlcnJvciApO1xuXHRcdFx0fVxuXHRcdH07XG5cblx0XHR0ZXN0LmFwcGx5KCBzZWxmLCBjYWNoZS5wYXJhbWV0ZXIgKTtcblxuXHRcdHJldHVybiBjYXRjaGVyO1xuXHR9ICk7XG5cblx0aGFyZGVuKCBcInRyYWNlXCIsIHRyYWNlLCBjYXRjaGVyICk7XG5cblx0Lyo7XG5cdFx0QG5vdGU6XG5cdFx0XHRUaGlzIHdpbGwgY2FjaGUgcmVzdWx0cyBmcm9tIGl0ZXJhdG9yLlxuXHRcdEBlbmQtbm90ZVxuXHQqL1xuXHRoYXJkZW4oIFwiYWNjdW11bGFudFwiLCBbIF0sIGNhdGNoZXIgKTtcblxuXHRjYXRjaGVyLmRvbmUoIGZ1bmN0aW9uIGRvbmUoICl7XG5cdFx0cmV0dXJuIGNhdGNoZXIuRE9ORSA9PT0gRE9ORTtcblx0fSApO1xuXG5cdGNhdGNoZXIucmVsZWFzZSggZnVuY3Rpb24gcmVsZWFzZSggKXtcblx0XHR3aGlsZSggY2F0Y2hlci5hY2N1bXVsYW50Lmxlbmd0aCApe1xuXHRcdFx0Y2F0Y2hlci5hY2N1bXVsYW50LnBvcCggKTtcblx0XHR9XG5cblx0XHRpZigga2Vpbiggd2h5bGUuY2FjaGUsIHRyYWNlICkgKXtcblx0XHRcdGRlbGV0ZSB3aHlsZS5jYWNoZVsgdHJhY2UgXTtcblx0XHR9XG5cdH0gKTtcblxuXHR3aHlsZS5jYWNoZVsgdHJhY2UgXSA9IGNhdGNoZXI7XG5cblx0cmV0dXJuIGNhdGNoZXI7XG59O1xuXG5oYXJkZW4oIFwiY2FjaGVcIiwgd2h5bGUuY2FjaGUgfHwgeyB9LCB3aHlsZSApO1xuXG5tb2R1bGUuZXhwb3J0cyA9IHdoeWxlO1xuIl19
+
+//# sourceMappingURL=whyle.support.js.map
