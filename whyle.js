@@ -32,6 +32,9 @@
 			"file": "whyle.js",
 			"module": "whyle",
 			"author": "Richeve S. Bebedor",
+			"contributors": [
+				"John Lenon Maghanoy <johnlenonmaghanoy@gmail.com>"
+			],
 			"eMail": "richeve.bebedor@gmail.com",
 			"repository": "https://github.com:volkovasystems/whyle.git",
 			"test": "whyle-test.js",
@@ -142,7 +145,7 @@ const whyle = function whyle( condition, iterator, delay ){
 
 	let trace = pringe.bind( self )( [ condition, iterator, delay ] );
 
-	if( kein( whyle.cache, trace ) && !whyle.cache[ trace ].done( ) ){
+	if( kein( trace, whyle.cache ) && !whyle.cache[ trace ].done( ) ){
 		return whyle.cache[ trace ];
 	}
 
@@ -267,7 +270,7 @@ const whyle = function whyle( condition, iterator, delay ){
 			catcher.accumulant.pop( );
 		}
 
-		if( kein( whyle.cache, trace ) ){
+		if( kein( trace, whyle.cache ) ){
 			delete whyle.cache[ trace ];
 		}
 	} );
